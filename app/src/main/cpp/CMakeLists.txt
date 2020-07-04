@@ -1,48 +1,70 @@
-# For more information about using CMake with Android Studio, read the
-# documentation: https://d.android.com/studio/projects/add-native-code.html
-
-# Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.10.2)
-
-# Declares and names the project.
 
 project("essentiaandroid")
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
+add_library(native-lib
+            SHARED
+            native-lib.cpp credit_libav.h
+            streaming_extractor_music.cpp streaming_extractor_music.h
+            extractor_utils.cpp extractor_utils.h)
 
-add_library( # Sets the name of the library.
-             native-lib
+add_library(essentia STATIC IMPORTED)
+add_library(avformat STATIC IMPORTED)
+add_library(avcodec STATIC IMPORTED)
+add_library(avutil STATIC IMPORTED)
+add_library(avresample STATIC IMPORTED)
+add_library(samplerate STATIC IMPORTED)
+add_library(mp3lame STATIC IMPORTED)
+add_library(chromaprint STATIC IMPORTED)
+add_library(tag STATIC IMPORTED)
+add_library(yaml SHARED IMPORTED)
 
-             # Sets the library as a shared library.
-             SHARED
+set_target_properties(  essentia
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libessentia.a)
 
-             # Provides a relative path to your source file(s).
-             native-lib.cpp )
+set_target_properties(  avformat
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libavformat.a)
 
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
+set_target_properties(  avcodec
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libavcodec.a)
 
-find_library( # Sets the name of the path variable.
-              log-lib
+set_target_properties(  avutil
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libavutil.a)
 
-              # Specifies the name of the NDK library that
-              # you want CMake to locate.
-              log )
+set_target_properties(  avresample
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libavresample.a)
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
+set_target_properties(  samplerate
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libsamplerate.a)
 
-target_link_libraries( # Specifies the target library.
-                       native-lib
+set_target_properties(  mp3lame
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libmp3lame.a)
 
-                       # Links the target library to the log library
-                       # included in the NDK.
-                       ${log-lib} )
+set_target_properties(  chromaprint
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libchromaprint.a)
+
+set_target_properties(  tag
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libtag.a)
+
+set_target_properties(  yaml
+                        PROPERTIES IMPORTED_LOCATION
+                        ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/lib/libyaml-0.so)
+
+include_directories(${CMAKE_SOURCE_DIR}/../jniLibs/include)
+include_directories(${CMAKE_SOURCE_DIR}/../jniLibs/include/eigen3)
+
+find_library(log-lib log)
+find_library(math-lib m)
+find_library(zlib z)
+
+target_link_libraries(native-lib essentia avresample avformat avcodec avutil mp3lame
+                      yaml chromaprint tag samplerate ${log-lib} ${math-lib} ${zlib})
