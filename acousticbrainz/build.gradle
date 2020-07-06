@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 
 android {
@@ -32,5 +33,30 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = 'org.metabrainz.android'
+                    artifactId = 'acousticbrainz'
+                    version = '0.1.0'
+                }
+            }
+
+            repositories {
+                maven {
+                    url = 'https://maven.pkg.github.com/metabrainz/acousticbrainz-android'
+                    credentials {
+                        Properties properties = new Properties()
+                        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                        username properties.getProperty('github.username')
+                        password properties.getProperty('github.token')
+                    }
+                }
+            }
+        }
     }
 }
