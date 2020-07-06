@@ -6,7 +6,7 @@ echo Installing to: $PREFIX
 export EIGEN_VERSION=3.3.7
 export FFMPEG_VERSION=ffmpeg-2.8.12
 export LAME_VERSION=3.100
-export LIBYAML_VERSION=yaml-0.2.5
+#export LIBYAML_VERSION=yaml-0.2.5
 export TAGLIB_VERSION=taglib-1.11.1
 export LIBSAMPLERATE_VERSION=libsamplerate-0.1.9
 export CHROMAPRINT_VERSION=1.4.3
