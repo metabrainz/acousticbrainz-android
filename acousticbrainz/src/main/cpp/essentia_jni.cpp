@@ -10,7 +10,7 @@ string convertJStringToString(JNIEnv *env, jstring str) {
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_org_metabrainz_acousticbrainz_extractData(JNIEnv *env, jclass,
+Java_org_metabrainz_acousticbrainz_AcousticBrainzClient_extractData(JNIEnv *env, jclass,
         jstring input_path, jstring output_path) {
     std::string input = convertJStringToString(env, input_path);
     std::string output = convertJStringToString(env, output_path);
