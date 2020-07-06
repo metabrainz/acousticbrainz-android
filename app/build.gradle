@@ -4,7 +4,6 @@ plugins {
 
 android {
     compileSdkVersion 29
-    ndkVersion "21.2.6472646"
     defaultConfig {
         applicationId "org.metabrainz.essentiaandroid"
         minSdkVersion 21
@@ -13,27 +12,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-                arguments "-DANDROID_STL=c++_static"
-            }
-        }
-        ndk {
-            abiFilters 'arm64-v8a'
-        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
         }
     }
     compileOptions {
@@ -50,6 +34,7 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
     implementation 'androidx.work:work-runtime:2.4.0-rc01'
     implementation 'androidx.work:work-rxjava3:2.4.0-rc01'
+    implementation project(path: ':acousticbrainz')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
