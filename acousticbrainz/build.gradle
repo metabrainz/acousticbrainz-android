@@ -42,7 +42,18 @@ android {
                     from components.release
                     groupId = 'org.metabrainz.android'
                     artifactId = 'acousticbrainz'
-                    version = '0.1.0'
+                    version = '0.1.1'
+                    pom {
+                        name = 'AcousticBrainz Android client'
+                        description = 'Android wrapper for Essentia\'s Streaming Extractor Music program'
+                        url = 'https://github.com/metabrainz/acousticbrainz-android'
+                        licenses {
+                            license {
+                                name = 'GNU Affero General Public License v3.0'
+                                url = 'https://www.gnu.org/licenses/agpl-3.0.en.html'
+                            }
+                        }
+                    }
                 }
             }
 
