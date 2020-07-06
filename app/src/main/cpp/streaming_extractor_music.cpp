@@ -20,7 +20,7 @@ void usage(char *progname) {
     exit(1);
 }
 
-int essentia_main(string audioFilename, string outputFilename) {
+int essentia_main(string audioFilename, string outputFilename, string profileName) {
     // Returns: 1 on essentia error
 
     try {

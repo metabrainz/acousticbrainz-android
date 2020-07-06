@@ -4,8 +4,13 @@ project("essentiaandroid")
 
 add_library(native-lib
             SHARED
-            native-lib.cpp credit_libav.h
-            streaming_extractor_music.cpp streaming_extractor_music.h
+            native-lib.cpp
+            credit_libav.h extractors.h
+            streaming_extractor_freesound.cpp
+            streaming_gfcc.cpp
+            streaming_mfcc.cpp
+            standard_mfcc.cpp
+            streaming_extractor_music.cpp
             extractor_utils.cpp extractor_utils.h)
 
 add_library(essentia STATIC IMPORTED)
