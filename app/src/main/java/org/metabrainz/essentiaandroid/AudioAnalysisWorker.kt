@@ -1,30 +1,19 @@
-package org.metabrainz.essentiaandroid;
+package org.metabrainz.essentiaandroid
 
-import android.content.Context;
+import android.content.Context
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 
-import androidx.annotation.NonNull;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
-
-import org.metabrainz.essentiaandroid.EssentiaJava;
-
-public class AudioAnalysisWorker extends Worker {
-    public static final String INPUT_PATH =  "input";
-    public static final String OUTPUT_PATH = "output";
-    public AudioAnalysisWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
-        super(context, workerParams);
+class AudioAnalysisWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+    override fun doWork(): Result {
+        val inputPath = inputData.getString(INPUT_PATH)
+        val outputPath = inputData.getString(OUTPUT_PATH)
+        val result = EssentiaJava.essentiaMusicExtractor(inputPath, outputPath)
+        return if (result != 0) Result.failure() else Result.success()
     }
 
-    @NonNull
-    @Override
-    public Result doWork() {
-        String inputPath = getInputData().getString(INPUT_PATH);
-        String outputPath = getInputData().getString(OUTPUT_PATH);
-        int result = EssentiaJava.essentiaMusicExtractor(inputPath, outputPath);
-        if (result != 0)
-            return Result.failure();
-        return Result.success();
+    companion object {
+        const val INPUT_PATH = "input"
+        const val OUTPUT_PATH = "output"
     }
-
-
 }
