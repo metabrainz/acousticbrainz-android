@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
                 val tempFile = File(externalCacheDir, fileName)
                 val directory = getExternalFilesDir(null)
                 var inputPath = tempFile.absolutePath
-                if (!inputPath.endsWith(".mp3")) inputPath = "$inputPath.mp3"
+                if (!inputPath.endsWith(".mp3")) {
+                    inputPath = "$inputPath.mp3"
+                }
                 val outputPath = directory!!.absolutePath + File.separator + fileName + ".json"
                 Log.d("Essentia Android", "Input Path: $inputPath")
                 Log.d("Essentia Android", "Output Path: $outputPath")
