@@ -9,7 +9,7 @@ class AudioAnalysisWorker(context: Context, workerParams: WorkerParameters) : Wo
     override fun doWork(): Result {
         val inputPath = inputData.getString(INPUT_PATH)
         val outputPath = inputData.getString(OUTPUT_PATH)
-        val result = EssentiaJava.essentiaMusicExtractor(inputPath, outputPath)
+        val result = EssentiaKotlin.essentiaMusicExtractor(inputPath, outputPath)
         return if (result != 0) Result.failure() else Result.success()
     }
 
