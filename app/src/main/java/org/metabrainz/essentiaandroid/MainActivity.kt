@@ -19,9 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Example of a call to a native method
-        val tv = findViewById<TextView>(R.id.sample_text)
-        tv.text = "Hello, World!"
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "audio/*"
@@ -49,12 +46,8 @@ class MainActivity : AppCompatActivity() {
                 outputStream.write(buffer)
                 outputStream.close()
 
-//                Observable
-//                        .fromCallable(() -> essentiaMusicExtractor(finalInputPath, outputPath))
-//                        .subscribeOn(Schedulers.newThread())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(this::essentiaTaskCompleted)
-//                        .dispose();
+                //essentiaMusicExtractor(finalInputPath, outputPath)
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
