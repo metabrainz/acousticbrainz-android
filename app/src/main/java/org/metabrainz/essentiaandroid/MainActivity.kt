@@ -8,9 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -32,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE) {
             try {
                 val fileName = getFileName(data!!.data)
@@ -42,19 +40,14 @@ class MainActivity : AppCompatActivity() {
                 val outputPath = directory!!.absolutePath + File.separator + fileName + ".json"
                 Log.d("Essentia Android", "Input Path: $inputPath")
                 Log.d("Essentia Android", "Output Path: $outputPath")
-                Completable.fromAction {
-                    val inputStream = contentResolver.openInputStream(data.data!!)
-                    val buffer = ByteArray(inputStream!!.available())
-                    inputStream.read(buffer)
-                    inputStream.close()
-                    val outputStream: OutputStream = FileOutputStream(tempFile)
-                    outputStream.write(buffer)
-                    outputStream.close()
-                }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { initiateWorkRequest() }
-                    .dispose()
+
+                val inputStream = contentResolver.openInputStream(data.data!!)
+                val buffer = ByteArray(inputStream!!.available())
+                inputStream.read(buffer)
+                inputStream.close()
+                val outputStream: OutputStream = FileOutputStream(tempFile)
+                outputStream.write(buffer)
+                outputStream.close()
 
 //                Observable
 //                        .fromCallable(() -> essentiaMusicExtractor(finalInputPath, outputPath))
@@ -66,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun initiateWorkRequest() {
